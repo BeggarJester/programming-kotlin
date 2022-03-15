@@ -43,11 +43,21 @@ fun parseBooks(books: String): List<Book> {
         if (bookYear < 1) {
             throw IllegalArgumentException("The year of publication of one of the books is not correct")
         }
-        val book = Book(bookTitle, bookAuthors, bookYear) // create object of Book
+        val book = Book(bookTitle, authorsTrim(bookAuthors), bookYear) // create object of Book
         listBooks.add(book) //  and add to the list
     }
     return listBooks // return the Books list
 }
+
+// leading and trailing whitespace removed for each author from list
+private fun authorsTrim(authors: List<String>): List<String> {
+    val authorsTrimed: MutableList<String> = mutableListOf()
+    for (author in authors) {
+        authorsTrimed.add(author.trim())
+    }
+    return authorsTrimed
+}
+
 
 fun main() {
 
