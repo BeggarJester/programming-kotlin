@@ -132,7 +132,7 @@ private fun getAuthors(authors: List<String>): String {
 
 // get the string of book information
 fun getList(library: List<Book>): String {
-    var str= ""
+    var str = ""
     for (book in library) {
         str += book.title + " // " + getAuthors(book.authors) + " // " + book.year + "\n"
     }
