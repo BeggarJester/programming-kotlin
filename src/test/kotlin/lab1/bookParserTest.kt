@@ -10,7 +10,7 @@ internal class Test {
     fun `test one correct string parse` () {
         val input = "1. The Lord of the Rings // JRR Tolkien // 1968"
         assertEquals("The Lord of the Rings", parseBooks(input)[0].title)
-        assertEquals("JRR Tolkien", parseBooks(input)[0].authors)
+        assertEquals("JRR Tolkien", parseBooks(input)[0].authors[0])
         assertEquals(1968, parseBooks(input)[0].year)
     }
 
