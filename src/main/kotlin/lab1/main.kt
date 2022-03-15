@@ -88,6 +88,58 @@ fun findLatestBookYear(library: List<Book>): List<Book> {
     return library.filter { it.year == latestBookYear }
 }
 
+//  get the list of the longest titled books
+fun findLongestBookTitle(library: List<Book>): List<Book> {
+    if (library.isEmpty()) {
+        throw IllegalArgumentException("The string is empty")
+    }
+    var longestBookTitle = Int.MIN_VALUE
+    // get the longest book title length
+    for (book in library) {
+        if (book.title.length > longestBookTitle) longestBookTitle = book.title.length
+    }
+
+    // return list of the longest titled books
+    return library.filter { it.title.length == longestBookTitle }
+}
+
+//  get the list of the shortest titled books
+fun findShortestBookTitle(library: List<Book>): List<Book> {
+    if (library.isEmpty()) {
+        throw IllegalArgumentException("The string is empty")
+    }
+    var shortestBookTitle = Int.MAX_VALUE
+    // get the shortest book title length
+    for (book in library) {
+        if (book.title.length < shortestBookTitle) shortestBookTitle = book.title.length
+    }
+
+    // return list of the shortest titled books
+    return library.filter { it.title.length == shortestBookTitle }
+}
+
+// return the string of book authors
+private fun getAuthors(authors: List<String>): String {
+    var listAuthor = ""
+    for (author in authors) {
+        listAuthor += author
+        listAuthor += ", "
+    }
+    // drop the final comma and whitespace
+    listAuthor = listAuthor.dropLast(2)
+    return listAuthor
+}
+
+// get the string of book information
+fun getList(library: List<Book>): String {
+    var str= ""
+    for (book in library) {
+        str += book.title + " // " + getAuthors(book.authors) + " // " + book.year + "\n"
+    }
+    // drop the final new string mark
+    return str.dropLast(1)
+}
+
 fun main() {
 
     // original string contains information about all books
@@ -97,6 +149,16 @@ fun main() {
         4. The Picture of Dorian Gray // Oscar Wilde // 1890
         5. Advanced math for Lawyers // Andrey Kolpakov, Augustus De Morgan // 1969 """
     val library: List<Book> = parseBooks(superString)
-
-
+    println("Print the original books list before parse:\n")
+    println(superString)
+    println("\nPrint the original books list:\n")
+    println(getList(library))
+    println("\nPrint the oldest books list:")
+    println(getList(findOldestBookYear(library)))
+    println("\nPrint the latest books list:")
+    println(getList(findLatestBookYear(library)))
+    println("\nPrint the longest titled books list:")
+    println(getList(findLongestBookTitle(library)))
+    println("\nPrint the shortest titled books list:")
+    println(getList(findShortestBookTitle(library)))
 }
