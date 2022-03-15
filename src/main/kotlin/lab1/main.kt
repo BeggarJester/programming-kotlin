@@ -58,6 +58,35 @@ private fun authorsTrim(authors: List<String>): List<String> {
     return authorsTrimed
 }
 
+// get the list of the oldest books
+fun findOldestBookYear(library: List<Book>): List<Book> {
+    if (library.isEmpty()) {
+        throw IllegalArgumentException("The string is empty")
+    }
+    var oldestBookYear = Int.MAX_VALUE
+    // get the oldest books year
+    for (book in library) {
+        if (book.year < oldestBookYear) oldestBookYear = book.year
+    }
+
+    // return list of books with the oldest publication year
+    return library.filter { it.year == oldestBookYear }
+}
+
+//  get the list of the latest books
+fun findLatestBookYear(library: List<Book>): List<Book> {
+    if (library.isEmpty()) {
+        throw IllegalArgumentException("The string is empty")
+    }
+    var latestBookYear = Int.MIN_VALUE
+    // get the latest books year
+    for (book in library) {
+        if (book.year > latestBookYear) latestBookYear = book.year
+    }
+
+    // return list of books with the latest publication year
+    return library.filter { it.year == latestBookYear }
+}
 
 fun main() {
 
@@ -68,5 +97,6 @@ fun main() {
         4. The Picture of Dorian Gray // Oscar Wilde // 1890
         5. Advanced math for Lawyers // Andrey Kolpakov, Augustus De Morgan // 1969 """
     val library: List<Book> = parseBooks(superString)
+
 
 }
