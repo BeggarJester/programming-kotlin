@@ -7,24 +7,25 @@ import kotlin.test.assertFailsWith
 internal class Test {
 
     @Test
-    fun `test one correct string parse` () {
+    fun `test one correct string parse`() {
         val input = "1. The Lord of the Rings // JRR Tolkien // 1968"
-        assertEquals("The Lord of the Rings", parseBooks(input)[0].title)
-        assertEquals("JRR Tolkien", parseBooks(input)[0].authors[0])
-        assertEquals(1968, parseBooks(input)[0].year)
-    }
-
-    @Test
-    fun `test empty string parse exception` () {
-        val input = ""
-        val exception = assertFailsWith<IllegalArgumentException>(
-            block = { parseBooks(input) }
+        assertEquals(
+            listOf(Book("The Lord of the Rings", listOf("JRR Tolkien"), 1968)),
+            parseBooks(input)
         )
-        assertEquals(exception.message, "The string is empty")
     }
 
     @Test
-    fun `test one missing title string parse exception` () {
+    fun `test empty string parse`() {
+        val input = ""
+        assertEquals(
+            true,
+            parseBooks(input).isEmpty()
+        )
+    }
+
+    @Test
+    fun `test one missing title string parse exception`() {
         val input = "1.// JRR Tolkien // 1968"
         val exception = assertFailsWith<IllegalArgumentException>(
             block = { parseBooks(input) }
@@ -67,39 +68,45 @@ internal class Test {
         4. The Picture of Dorian Gray // Oscar Wilde // 1890
         5. Advanced math for Lawyers // Andrey Kolpakov, Augustus De Morgan // 1969 """
         assertEquals(
-            "The Picture of Dorian Gray // Oscar Wilde // 1890",
-            getList(findOldestBookYear(parseBooks(input)))
+            listOf(Book("The Picture of Dorian Gray", listOf("Oscar Wilde"), 1890)),
+            findOldestBookYear(parseBooks(input))
         )
         assertEquals(
-            "The Godfather // Mario Puzo // 1969\nAdvanced math for Lawyers // Andrey Kolpakov, Augustus De Morgan // 1969",
-            getList(findLatestBookYear(parseBooks(input)))
+            listOf(
+                Book("The Godfather", listOf("Mario Puzo"), 1969),
+                Book("Advanced math for Lawyers", listOf("Andrey Kolpakov", "Augustus De Morgan"), 1969)
+            ),
+            findLatestBookYear(parseBooks(input))
         )
         assertEquals(
-            "The Picture of Dorian Gray // Oscar Wilde // 1890",
-            getList(findLongestBookTitle(parseBooks(input)))
+            listOf(Book("The Picture of Dorian Gray", listOf("Oscar Wilde"), 1890)),
+            findLongestBookTitle(parseBooks(input))
         )
-        assertEquals("Catch-22 // Joseph Heller // 1961", getList(findShortestBookTitle(parseBooks(input))))
+        assertEquals(
+            listOf(Book("Catch-22", listOf("Joseph Heller"), 1961)),
+            findShortestBookTitle(parseBooks(input))
+        )
     }
 
     @Test
-    fun `test algorithms of finding the oldest, the latest, the longest and the shortest books from empty string exception`() {
+    fun `test algorithms of finding the oldest, the latest, the longest and the shortest books from empty string`() {
         val input = ""
-        val exception = assertFailsWith<IllegalArgumentException>(
-            block = { getList(findOldestBookYear(parseBooks(input))) }
+        assertEquals(
+            true,
+            findOldestBookYear(parseBooks(input)).isEmpty()
         )
-        assertEquals(exception.message, "The string is empty")
-        val exception2 = assertFailsWith<IllegalArgumentException>(
-            block = { getList(findLatestBookYear(parseBooks(input))) }
+        assertEquals(
+            true,
+            findLatestBookYear(parseBooks(input)).isEmpty()
         )
-        assertEquals(exception2.message, "The string is empty")
-        val exception3 = assertFailsWith<IllegalArgumentException>(
-            block = { getList(findLongestBookTitle(parseBooks(input))) }
+        assertEquals(
+            true,
+            findLongestBookTitle(parseBooks(input)).isEmpty()
         )
-        assertEquals(exception3.message, "The string is empty")
-        val exception4 = assertFailsWith<IllegalArgumentException>(
-            block = { getList(findShortestBookTitle(parseBooks(input))) }
+        assertEquals(
+            true,
+            findShortestBookTitle(parseBooks(input)).isEmpty()
         )
-        assertEquals(exception4.message, "The string is empty")
     }
 
 }
