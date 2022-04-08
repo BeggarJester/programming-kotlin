@@ -24,7 +24,7 @@ class Circle(override val borderColor: Color, override val fillColor: Color, rad
 }
 
 // class for square storage
-class Square(override val borderColor: Color,  override val fillColor: Color, side: Double) : ColoredShape2d {
+class Square(override val borderColor: Color, override val fillColor: Color, side: Double) : ColoredShape2d {
     private val side: Double
 
     init {
