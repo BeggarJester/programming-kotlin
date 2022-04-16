@@ -54,37 +54,44 @@ class ProcessNote : NoteService {
 
     // create text note
     override fun createTextNote(title: String, content: String): Note.TextNote {
-
+        logger.info("created new text note")
+        return Note.TextNote(title, LocalDate.now(), content)
     }
 
     // create task note
     override fun createTaskNote(title: String, description: String, deadline: LocalDate): Note.Task {
-
+        logger.info("created new task note")
+        return Note.Task(title, LocalDate.now(), description, deadline)
     }
 
     // create link note
     override fun createLinkNote(title: String, url: URL): Note.Link {
-
+        logger.info("created new link note")
+        return Note.Link(title, LocalDate.now(), url)
     }
 
     // remove note with user title & type
     override fun removeNote(title: String, typeName: String) {
-
+        noteList.removeIf { it.title == title && it::class.simpleName == typeName }
+        logger.info("removed some notes from NoteService")
     }
 
     // find note by user title & type
     override fun find(title: String, typeName: String): List<Note> {
-
+        logger.info("returned list of searched elements of NoteService")
+        return noteList.filter { it.title == title && it::class.simpleName == typeName }
     }
 
     // get list contains notes sorted by title in ascending
     override fun getSortedByTitle(): List<Note> {
-
+        logger.info("returned list of sorted by title NoteService elements")
+        return noteList.sortedBy { it.title }
     }
 
     // get list contains notes sorted by date in ascending
     override fun getSortedByDate(): List<Note> {
-
+        logger.info("returned list of sorted by date NoteService elements")
+        return noteList.sortedBy { it.date }
     }
 
 }
