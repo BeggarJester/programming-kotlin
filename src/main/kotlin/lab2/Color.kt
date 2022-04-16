@@ -2,9 +2,9 @@ package lab2
 
 // class for color information storage
 class Color(red: Int, green: Int, blue: Int, alpha: Int) {
-    private var red: Int
+    private val red: Int
     private val green: Int
-    private var blue: Int
+    private val blue: Int
     private val alpha: Int
 
     init {
