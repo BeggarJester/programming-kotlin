@@ -76,6 +76,12 @@ class ProcessNote : NoteService {
         logger.info("removed some notes from NoteService")
     }
 
+    // remove note with user title & type
+    override fun removeNote(delete: Note) {
+        noteList.removeIf { it == delete }
+        logger.info("removed some notes from NoteService")
+    }
+
     // find note by user title & type
     override fun find(title: String, typeName: String): List<Note> {
         logger.info("returned list of searched elements of NoteService")

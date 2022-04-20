@@ -12,12 +12,8 @@ interface NoteService {
     fun createTaskNote(title: String, description: String, deadline: LocalDate): Note.Task
     fun createLinkNote(title: String, url: URL): Note.Link
     fun removeNote(title: String, typeName: String)
+    fun removeNote(delete: Note)
     fun find(title: String, typeName: String): List<Note>
     fun getSortedByTitle(): List<Note>
     fun getSortedByDate(): List<Note>
-}
-
-interface CommonNote {
-    val title: String
-    val date: LocalDate
 }
