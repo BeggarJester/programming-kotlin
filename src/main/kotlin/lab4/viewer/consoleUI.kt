@@ -16,7 +16,7 @@ class ConsoleUi(private val model: Model) {
     }
 
     private fun repaint() {
-        //Runtime.getRuntime().exec("clear")
+        Runtime.getRuntime().exec("clear")
         println(model)
     }
 }

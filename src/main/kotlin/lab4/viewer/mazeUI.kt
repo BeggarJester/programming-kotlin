@@ -1,10 +1,15 @@
 package lab4.viewer
 
+import lab4.model.Cell
 import lab4.model.Model
 import lab4.model.ModelChangeListener
 import lab4.model.State
 import java.awt.BorderLayout
+import java.awt.Color
 import java.awt.Component
+import java.awt.GridLayout
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
 import javax.swing.*
 
 class MazeUi : JFrame("Maze"), ModelChangeListener {
@@ -60,9 +65,32 @@ class MazeUi : JFrame("Maze"), ModelChangeListener {
     }
 
     private fun createBoardPanel(): Component {
+        val gamePanel = JPanel(GridLayout(gameModel.boardRow, gameModel.boardColumn))
 
+        for (i in 0 until gameModel.boardRow) {
+            val buttonsRow = mutableListOf<JButton>()
+            for (j in 0 until gameModel.boardColumn) {
+                val cellButton = JButton("")
+                // get typed key information
+                cellButton.addKeyListener(object : KeyAdapter() {
+                    override fun keyTyped(e: KeyEvent) {
+                        when (e.keyChar.toString().lowercase()) {
+                            "ц" -> gameModel.doMove("w")
+                            "ф" -> gameModel.doMove("a")
+                            "ы" -> gameModel.doMove("s")
+                            "в" -> gameModel.doMove("d")
+                            else -> gameModel.doMove(e.keyChar.toString().lowercase())
+                        }
+                    }
+                })
+                buttonsRow.add(cellButton)
+                gamePanel.add(cellButton)
+                updateFont(cellButton, 30.0f)
+            }
+            buttons.add(buttonsRow)
+        }
+        return gamePanel
     }
-
 
     private fun updateFont(component: JComponent, newFontSize: Float) {
         val font = component.font
@@ -75,8 +103,26 @@ class MazeUi : JFrame("Maze"), ModelChangeListener {
     }
 
     private fun updateGameUI() {
+        val state = gameModel.state
+        statusLabel.text = state.textValue
 
+        for ((i, buttonRow) in buttons.withIndex()) {
+            for ((j, button) in buttonRow.withIndex()) {
+                val cell = gameModel.board[i][j]
+                when (cell) {
+                    Cell.PLAYER -> button.text = cell.toString()
+                    Cell.EXIT -> button.text = cell.toString()
+                    else -> button.text = ""
+                }
+
+                UIManager.getDefaults()["Button.disabledText"] = Color.BLACK
+                button.isEnabled = cell == Cell.PLAYER && state == State.MOVE
+                if (cell == Cell.PLAYER) button.requestFocus()
+                if (cell != Cell.WALL) {
+                    button.background = Color.orange
+                    button.foreground = Color.BLACK
+                }
+            }
+        }
     }
-
 }
-
