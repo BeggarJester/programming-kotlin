@@ -47,7 +47,81 @@ class Model {
         listeners.forEach { it.onModelChanged() }
     }
 
-
+    // moving in maze by WASD
+    fun doMove(direction: String) {
+        when (direction) {
+            "w" -> {
+                if (player.first > 0) {
+                    when (board[player.first - 1][player.second]) {
+                        FREE_WAY -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first - 1][player.second] = PLAYER
+                            player = Pair(player.first - 1, player.second)
+                        }
+                        EXIT -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first - 1][player.second] = PLAYER
+                            state = State.FINISH
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            "s" -> {
+                if (player.first < boardRow - 1) {
+                    when (board[player.first + 1][player.second]) {
+                        FREE_WAY -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first + 1][player.second] = PLAYER
+                            player = Pair(player.first + 1, player.second)
+                        }
+                        EXIT -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first + 1][player.second] = PLAYER
+                            state = State.FINISH
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            "d" -> {
+                if (player.second < boardColumn - 1) {
+                    when (board[player.first][player.second + 1]) {
+                        FREE_WAY -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first][player.second + 1] = PLAYER
+                            player = Pair(player.first, player.second + 1)
+                        }
+                        EXIT -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first][player.second + 1] = PLAYER
+                            state = State.FINISH
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            "a" -> {
+                if (player.second > 0) {
+                    when (board[player.first][player.second - 1]) {
+                        FREE_WAY -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first][player.second - 1] = PLAYER
+                            player = Pair(player.first, player.second - 1)
+                        }
+                        EXIT -> {
+                            board[player.first][player.second] = FREE_WAY
+                            board[player.first][player.second - 1] = PLAYER
+                            state = State.FINISH
+                        }
+                        else -> {}
+                    }
+                }
+            }
+            "exit" -> state = State.FINISH
+        }
+        notifyListeners()
+    }
 
     // read maze map from file
     private fun initStartBoard(): MutableList<MutableList<Cell>> {
