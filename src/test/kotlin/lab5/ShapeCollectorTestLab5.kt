@@ -5,13 +5,39 @@ import org.junit.jupiter.api.Test
 
 internal class ShapeCollectorTestLab5 {
 
-
     @Test
-    fun addAll() {
+    fun `test add outside collection to ShapeCollector`() {
+        val colour1 = Color(255, 255, 255, 0)
+        val colour2 = Color(1, 1, 1, 0)
+        val shape1 = Circle(colour1, colour1, 1.5)
+        val shape2 = Circle(colour1, colour2, 3.0)
+        val myShapeCollector = ShapeCollector<ColoredShape2d>()
+        myShapeCollector.addAll(listOf(shape1, shape2))
+        Assertions.assertEquals(
+            listOf(shape1, shape2),
+            myShapeCollector.getList()
+        )
     }
 
     @Test
-    fun getSorted() {
+    fun `test sort ShapeCollector by Comparator`() {
+        val colour1 = Color(255, 255, 255, 0)
+        val colour2 = Color(1, 1, 1, 0)
+        val shape1 = Square(colour2, colour1, 5.0)
+        val shape2 = Square(colour2, colour2, 1.0)
+        val shape3 = Square(colour2, colour1, 3.0)
+        val myShapeCollector = ShapeCollector<ColoredShape2d>()
+        myShapeCollector.insertShape2d(shape1)
+        myShapeCollector.insertShape2d(shape2)
+        myShapeCollector.insertShape2d(shape3)
+        Assertions.assertEquals(
+            listOf(shape2, shape3, shape1),
+            myShapeCollector.getSorted(SortedByShapeArea())
+        )
+        Assertions.assertEquals(
+            listOf(shape1, shape3, shape2),
+            myShapeCollector.getSorted(SortedByDescendingShapeArea())
+        )
     }
 
     @Test

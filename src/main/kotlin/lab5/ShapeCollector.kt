@@ -1,7 +1,7 @@
 package lab5
 
 // class for colored 2d shapes collection storage
-class ShapeCollector<out T: ColoredShape2d> {
+class ShapeCollector<out T : ColoredShape2d> {
     private val coloredShape2dList: MutableList<T> = mutableListOf()
 
     // add colored 2d shapes in collection
@@ -10,7 +10,7 @@ class ShapeCollector<out T: ColoredShape2d> {
     }
 
     // add outside collection to our
-    fun addAll(list : List<@UnsafeVariance T>) {
+    fun addAll(list: List<@UnsafeVariance T>) {
         list.forEach { coloredShape2dList.add(it) }
     }
 

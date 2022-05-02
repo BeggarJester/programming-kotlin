@@ -48,7 +48,7 @@ class Rectangle(
     override val borderColor: Color,
     override val fillColor: Color,
     height: Double,
-    width: Double
+    width: Double,
 ) : ColoredShape2d {
     private val height: Double
     private val width: Double
@@ -76,7 +76,7 @@ class Triangle(
     override val fillColor: Color,
     firstSide: Double,
     secondSide: Double,
-    thirdSide: Double
+    thirdSide: Double,
 ) : ColoredShape2d {
     private val firstSide: Double
     private val secondSide: Double
