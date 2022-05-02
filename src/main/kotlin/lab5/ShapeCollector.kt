@@ -14,6 +14,7 @@ class ShapeCollector<out T: ColoredShape2d> {
         list.forEach { coloredShape2dList.add(it) }
     }
 
+    // sort ShapeCollector by Comparator
     fun getSorted(typeOfSorting: Comparator<@UnsafeVariance T>): List<T> {
         return coloredShape2dList.sortedWith(typeOfSorting)
     }

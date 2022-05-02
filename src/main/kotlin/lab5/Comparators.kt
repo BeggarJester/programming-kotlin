@@ -1,5 +1,6 @@
 package lab5
 
+// comparator for according sort
 class SortedByShapeArea : Comparator<ColoredShape2d> {
     override fun compare(firstShape: ColoredShape2d, secondShape: ColoredShape2d): Int {
         if(firstShape.calculateArea() < secondShape.calculateArea()) {
@@ -12,6 +13,7 @@ class SortedByShapeArea : Comparator<ColoredShape2d> {
     }
 }
 
+// comparator for descending sort
 class SortedByDescendingShapeArea : Comparator<ColoredShape2d> {
     override fun compare(firstShape: ColoredShape2d, secondShape: ColoredShape2d): Int {
         if(firstShape.calculateArea() < secondShape.calculateArea()) {
