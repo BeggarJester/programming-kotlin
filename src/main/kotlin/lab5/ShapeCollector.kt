@@ -1,16 +1,21 @@
 package lab5
 
 // class for colored 2d shapes collection storage
-class ShapeCollector {
-    private val coloredShape2dList: MutableList<ColoredShape2d> = mutableListOf()
+class ShapeCollector<out T: ColoredShape2d> {
+    private val coloredShape2dList: MutableList<T> = mutableListOf()
 
     // add colored 2d shapes in collection
-    fun insertShape2d(member: ColoredShape2d) {
+    fun insertShape2d(member: @UnsafeVariance T) {
         coloredShape2dList.add(member)
     }
 
+    // add outside collection to our
+    fun addAll(list : List<@UnsafeVariance T>) {
+        list.forEach { coloredShape2dList.add(it) }
+    }
+
     // return the list of colored 2d shapes with minimum area
-    fun minArea(): List<ColoredShape2d> {
+    fun minArea(): List<T> {
         if (coloredShape2dList.size == 0) {
             return emptyList()
         }
@@ -19,7 +24,7 @@ class ShapeCollector {
     }
 
     // return the list of colored 2d shapes with maximum area
-    fun maxArea(): List<ColoredShape2d> {
+    fun maxArea(): List<T> {
         if (coloredShape2dList.size == 0) {
             return emptyList()
         }
@@ -33,7 +38,7 @@ class ShapeCollector {
     }
 
     // return the list of colored 2d shapes sorted by user fill color
-    fun searchByFillColor(searchColor: Color): List<ColoredShape2d> {
+    fun searchByFillColor(searchColor: Color): List<T> {
         if (coloredShape2dList.size == 0) {
             return emptyList()
         }
@@ -41,7 +46,7 @@ class ShapeCollector {
     }
 
     // return the list of colored 2d shapes sorted by user border color
-    fun searchByBorderColor(searchColor: Color): List<ColoredShape2d> {
+    fun searchByBorderColor(searchColor: Color): List<T> {
         if (coloredShape2dList.size == 0) {
             return emptyList()
         }
@@ -49,7 +54,7 @@ class ShapeCollector {
     }
 
     // return the list of colored 2d shapes
-    fun getList(): List<ColoredShape2d> {
+    fun getList(): List<T> {
         return coloredShape2dList
     }
 
@@ -59,17 +64,17 @@ class ShapeCollector {
     }
 
     // return map created by user fill color
-    fun getMapByFillColor(): Map<Color, List<ColoredShape2d>> {
+    fun getMapByFillColor(): Map<Color, List<T>> {
         return coloredShape2dList.groupBy { it.fillColor }
     }
 
     // return map created by user border color
-    fun getMapByBorderColor(): Map<Color, List<ColoredShape2d>> {
+    fun getMapByBorderColor(): Map<Color, List<T>> {
         return coloredShape2dList.groupBy { it.borderColor }
     }
 
     // return the list of colored 2d shapes sorted by user colored 2d shape type
-    fun filterByType(typeName: String): List<ColoredShape2d> {
+    fun filterByType(typeName: String): List<T> {
         return coloredShape2dList.filter { it::class.simpleName == typeName }
     }
 

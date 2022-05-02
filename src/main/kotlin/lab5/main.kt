@@ -9,7 +9,7 @@ fun main() {
     val shape4 = Square(colour2, colour2, 5.0)
     val shape5 = Rectangle(colour1, colour1, 1.0, 3.0)
     val shape6 = Triangle(colour2, colour1, 3.0, 4.0, 5.0)
-    val myShapeCollector = ShapeCollector()
+    val myShapeCollector = ShapeCollector<ColoredShape2d>()
     myShapeCollector.insertShape2d(shape1)
     myShapeCollector.insertShape2d(shape2)
     myShapeCollector.insertShape2d(shape3)
