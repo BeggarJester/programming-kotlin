@@ -14,6 +14,10 @@ class ShapeCollector<out T: ColoredShape2d> {
         list.forEach { coloredShape2dList.add(it) }
     }
 
+    fun getSorted(typeOfSorting: Comparator<@UnsafeVariance T>): List<T> {
+        return coloredShape2dList.sortedWith(typeOfSorting)
+    }
+
     // return the list of colored 2d shapes with minimum area
     fun minArea(): List<T> {
         if (coloredShape2dList.size == 0) {
