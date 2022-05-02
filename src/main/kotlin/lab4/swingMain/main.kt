@@ -9,5 +9,4 @@ fun main() {
         val mazeUi = MazeUi()
         mazeUi.isVisible = true
     }
-
 }
