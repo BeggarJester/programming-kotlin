@@ -6,6 +6,7 @@ import kotlinx.serialization.json.Json
 import java.io.File
 
 class Serializer {
+
     private val json = Json {
         prettyPrint = true
         serializersModule = libSerializer
@@ -21,5 +22,20 @@ class Serializer {
         if (!File("src/main/kotlin/lab6/$title.txt").exists())
             throw IllegalArgumentException("File doesn't exist")
         return json.decodeFromString(File("src/main/kotlin/lab6/$title.txt").readText())
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Serializer
+
+        if (json != other.json) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return json.hashCode()
     }
 }
