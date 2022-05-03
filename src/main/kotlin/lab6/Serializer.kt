@@ -18,7 +18,7 @@ class Serializer {
 
     // read string from file and its deserialization into objects
     fun deserialization(title: String): MutableList<ColoredShape2d> {
-        if(!File("src/main/kotlin/lab6/$title.txt").exists())
+        if (!File("src/main/kotlin/lab6/$title.txt").exists())
             throw IllegalArgumentException("File doesn't exist")
         return json.decodeFromString(File("src/main/kotlin/lab6/$title.txt").readText())
     }

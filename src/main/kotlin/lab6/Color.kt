@@ -23,4 +23,26 @@ class Color {
     override fun toString(): String {
         return "(red=$red, green=$green, blue=$blue, alpha=$alpha)"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Color
+
+        if (red != other.red) return false
+        if (green != other.green) return false
+        if (blue != other.blue) return false
+        if (alpha != other.alpha) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = red
+        result = 31 * result + green
+        result = 31 * result + blue
+        result = 31 * result + alpha
+        return result
+    }
 }

@@ -41,6 +41,26 @@ class Circle : ColoredShape2d {
         return "Circle(borderColor=$borderColor, fillColor=$fillColor, radius=$radius)"
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Circle
+
+        if (borderColor != other.borderColor) return false
+        if (fillColor != other.fillColor) return false
+        if (radius != other.radius) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = borderColor.hashCode()
+        result = 31 * result + fillColor.hashCode()
+        result = 31 * result + radius.hashCode()
+        return result
+    }
+
 }
 
 // class for square storage
@@ -67,6 +87,26 @@ class Square : ColoredShape2d {
 
     override fun toString(): String {
         return "Square(borderColor=$borderColor, fillColor=$fillColor, side=$side)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Square
+
+        if (borderColor != other.borderColor) return false
+        if (fillColor != other.fillColor) return false
+        if (side != other.side) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = borderColor.hashCode()
+        result = 31 * result + fillColor.hashCode()
+        result = 31 * result + side.hashCode()
+        return result
     }
 }
 
@@ -96,6 +136,28 @@ class Rectangle : ColoredShape2d {
 
     override fun toString(): String {
         return "Rectangle(borderColor=$borderColor, fillColor=$fillColor, height=$height, width=$width)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Rectangle
+
+        if (borderColor != other.borderColor) return false
+        if (fillColor != other.fillColor) return false
+        if (height != other.height) return false
+        if (width != other.width) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = borderColor.hashCode()
+        result = 31 * result + fillColor.hashCode()
+        result = 31 * result + height.hashCode()
+        result = 31 * result + width.hashCode()
+        return result
     }
 }
 
@@ -127,5 +189,29 @@ class Triangle : ColoredShape2d {
 
     override fun toString(): String {
         return "Triangle(borderColor=$borderColor, fillColor=$fillColor, firstSide=$firstSide, secondSide=$secondSide, thirdSide=$thirdSide)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Triangle
+
+        if (borderColor != other.borderColor) return false
+        if (fillColor != other.fillColor) return false
+        if (firstSide != other.firstSide) return false
+        if (secondSide != other.secondSide) return false
+        if (thirdSide != other.thirdSide) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = borderColor.hashCode()
+        result = 31 * result + fillColor.hashCode()
+        result = 31 * result + firstSide.hashCode()
+        result = 31 * result + secondSide.hashCode()
+        result = 31 * result + thirdSide.hashCode()
+        return result
     }
 }
