@@ -1,0 +1,42 @@
+[
+    {
+        "first": "a",
+        "second": 70
+    },
+    {
+        "first": "fff",
+        "second": 67
+    },
+    {
+        "first": "h",
+        "second": 62
+    },
+    {
+        "first": "hhh",
+        "second": 62
+    },
+    {
+        "first": "2",
+        "second": 36
+    },
+    {
+        "first": "Vadim",
+        "second": 11
+    },
+    {
+        "first": "ggg",
+        "second": 10
+    },
+    {
+        "first": "uuu",
+        "second": 6
+    },
+    {
+        "first": "win",
+        "second": 3
+    },
+    {
+        "first": "yyy",
+        "second": 3
+    }
+]
