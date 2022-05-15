@@ -1,12 +1,16 @@
-package CW
+package coursework
 
-import CW.Position.*
-import java.awt.*
+import java.awt.Color
+import java.awt.Font
+import java.awt.Graphics
+import java.awt.Image
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
-import javax.swing.*
+import javax.swing.ImageIcon
+import javax.swing.JComponent
+import javax.swing.Timer
 
 enum class Position(private val textValue: String) {
     UP_LEFT("0"),
@@ -24,55 +28,20 @@ enum class EggStatus {
     FALLING;
 }
 
-class Game : JFrame("Game") {
-
-    private val body = GameProcess()
-    private var startMenu = JPanel()
-    private val finishMenu = JPanel()
-
-    init {
-        val icon = ImageIcon("src/main/kotlin/coursework/images/icon.png")
-        iconImage = icon.image
-        setSize(735, 475)
-        isResizable = false
-        setLocationRelativeTo(null)
-        defaultCloseOperation = EXIT_ON_CLOSE
-        add(createStartPanel(startMenu))
-
-        isVisible = true
-    }
-
-    private fun createStartPanel(start: JPanel): JPanel {
-        start.background = Color.GREEN
-        start.isVisible = true
-        val button = JButton("Start")
-        start.add(button)
-
-        button.addActionListener {
-            body.startGame()
-            start.isVisible = false
-            addKeyListener(body)
-            add(body)
-            body.isVisible = true
-        }
-        return start
-    }
-
-}
-
-class GameProcess : JComponent(), KeyListener, ActionListener {
+class GameProcess : JComponent(), ActionListener, KeyListener {
     var score = 0
     var lives = 3
-    private var wolfPosition = UP_LEFT
-    private val img = ImageIcon("src/main/kotlin/CW/background.png").image
-    private var wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf.png").image
-    private var life = ImageIcon("src/main/kotlin/coursework/images/frames/egg-live-$lives.png").image
+    private var wolfPosition = Position.UP_LEFT
+    private val img = ImageIcon("src/main/kotlin/coursework/images/layer/background.png").image
+    private var wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf.png").image
+    private var life = ImageIcon("src/main/kotlin/coursework/images/live/egg-live-$lives.png").image
     private val table: MutableList<MutableList<Image>> = initBoard()
-    private var eggs: MutableList<GameProcess.Egg> = ArrayList()
+    private var eggs: MutableList<Egg> = ArrayList()
     private var newEgg = 0
     private var complexity = 1
     private var delay = true
-    val timer: Timer = Timer(500) {
+
+    private val timer: Timer = Timer(200) {
 
         if (newEgg < complexity) {
             eggs.add(Egg((0..3).random()))
@@ -94,29 +63,24 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
     }
 
     fun startGame() {
-
         timer.start()
-
     }
 
     fun stopGame() {
-
         timer.stop()
-
+        notifyListeners()
     }
 
     override fun paintComponent(g: Graphics) {
         g.drawImage(img, 0, 0, null)
         g.drawImage(wolf, 0, 0, null)
         g.drawImage(life, 0, 0, null)
-        //g.drawString("SCORE: $score", 50, 50)
 
         val font: Font = font.deriveFont(42f)
         g.font = font
         g.color = Color.ORANGE
         val message = "SCORE: $score"
-        val metrics: FontMetrics = g.fontMetrics
-        g.drawString(message, 100, 70)
+        g.drawString(message, 120, 60)
 
         for (egg in eggs) egg.drawEgg(g)
     }
@@ -138,7 +102,7 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
         fun checkLivesAndScore() {
             if ((counter == 7) && (index != wolfPosition.toString().toInt())) {
                 lives--
-                life = ImageIcon("src/main/kotlin/coursework/images/frames/egg-live-$lives.png").image
+                life = ImageIcon("src/main/kotlin/coursework/images/live/egg-live-$lives.png").image
             }
             if ((counter == 7) && (index == wolfPosition.toString().toInt())) score++
             when (score) {
@@ -146,7 +110,7 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
                 10 -> complexity = 3
             }
             if (lives == 0) {
-                timer.stop()
+                stopGame()
             }
         }
     }
@@ -157,13 +121,13 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
     override fun keyPressed(e: KeyEvent?) {
         if (e!!.keyCode == KeyEvent.VK_DOWN) {
             when (wolfPosition) {
-                UP_LEFT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-1.png").image
-                    wolfPosition = DOWN_LEFT
+                Position.UP_LEFT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-1.png").image
+                    wolfPosition = Position.DOWN_LEFT
                 }
-                UP_RIGHT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-3.png").image
-                    wolfPosition = DOWN_RIGHT
+                Position.UP_RIGHT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-3.png").image
+                    wolfPosition = Position.DOWN_RIGHT
                 }
                 else -> {}
             }
@@ -171,13 +135,13 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
         }
         if (e.keyCode == KeyEvent.VK_UP) {
             when (wolfPosition) {
-                DOWN_LEFT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf.png").image
-                    wolfPosition = UP_LEFT
+                Position.DOWN_LEFT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf.png").image
+                    wolfPosition = Position.UP_LEFT
                 }
-                DOWN_RIGHT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-2.png").image
-                    wolfPosition = UP_RIGHT
+                Position.DOWN_RIGHT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-2.png").image
+                    wolfPosition = Position.UP_RIGHT
                 }
                 else -> {}
             }
@@ -185,13 +149,13 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
         }
         if (e.keyCode == KeyEvent.VK_RIGHT) {
             when (wolfPosition) {
-                UP_LEFT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-2.png").image
-                    wolfPosition = UP_RIGHT
+                Position.UP_LEFT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-2.png").image
+                    wolfPosition = Position.UP_RIGHT
                 }
-                DOWN_LEFT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-3.png").image
-                    wolfPosition = DOWN_RIGHT
+                Position.DOWN_LEFT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-3.png").image
+                    wolfPosition = Position.DOWN_RIGHT
                 }
                 else -> {}
             }
@@ -199,17 +163,21 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
         }
         if (e.keyCode == KeyEvent.VK_LEFT) {
             when (wolfPosition) {
-                UP_RIGHT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf.png").image
-                    wolfPosition = UP_LEFT
+                Position.UP_RIGHT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf.png").image
+                    wolfPosition = Position.UP_LEFT
                 }
-                DOWN_RIGHT -> {
-                    wolf = ImageIcon("src/main/kotlin/CW/wolfImage/wolf-1.png").image
-                    wolfPosition = DOWN_LEFT
+                Position.DOWN_RIGHT -> {
+                    wolf = ImageIcon("src/main/kotlin/coursework/images/wolf/wolf-1.png").image
+                    wolfPosition = Position.DOWN_LEFT
                 }
                 else -> {}
             }
             repaint()
+        }
+        if (e.keyCode == KeyEvent.VK_ESCAPE) {
+            timer.stop()
+            notifyListeners2()
         }
     }
 
@@ -222,22 +190,32 @@ class GameProcess : JComponent(), KeyListener, ActionListener {
 
     private fun initBoard(): MutableList<MutableList<Image>> {
         val table1 = MutableList(4) {
-            MutableList(7) { ImageIcon("src/main/kotlin/CW/egg/0-0.png").image }
+            MutableList(7) { ImageIcon("src/main/kotlin/coursework/images/egg/0-0.png").image }
         }
         for (i in 0 until 4) {
             for (j in 0 until 7) {
-                table1[i][j] = ImageIcon("src/main/kotlin/CW/egg/$i-$j.png").image
+                table1[i][j] = ImageIcon("src/main/kotlin/coursework/images/egg/$i-$j.png").image
             }
         }
         return table1
     }
 
+    private val listeners: MutableSet<ModelChangeListener> = mutableSetOf()
 
-}
-
-fun main() {
-    SwingUtilities.invokeLater {
-        val game = Game()
-        game.isVisible = true
+    fun addModelChangeListener(listener: ModelChangeListener) {
+        listeners.add(listener)
     }
+
+    fun removeModelChangeListener(listener: ModelChangeListener) {
+        listeners.remove(listener)
+    }
+
+    private fun notifyListeners() {
+        listeners.forEach { it.onModelChanged(score) }
+    }
+
+    private fun notifyListeners2() {
+        listeners.forEach { it.onModelChanged2() }
+    }
+
 }
