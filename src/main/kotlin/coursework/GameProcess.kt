@@ -200,22 +200,22 @@ class GameProcess : JComponent(), ActionListener, KeyListener {
         return table1
     }
 
-    private val listeners: MutableSet<ModelChangeListener> = mutableSetOf()
+    private val listeners: MutableSet<GameChangeListener> = mutableSetOf()
 
-    fun addModelChangeListener(listener: ModelChangeListener) {
+    fun addModelChangeListener(listener: GameChangeListener) {
         listeners.add(listener)
     }
 
-    fun removeModelChangeListener(listener: ModelChangeListener) {
+    fun removeModelChangeListener(listener: GameChangeListener) {
         listeners.remove(listener)
     }
 
     private fun notifyListeners() {
-        listeners.forEach { it.onModelChanged(score) }
+        listeners.forEach { it.gameOver(score) }
     }
 
     private fun notifyListeners2() {
-        listeners.forEach { it.onModelChanged2() }
+        listeners.forEach { it.gamePause() }
     }
 
 }
