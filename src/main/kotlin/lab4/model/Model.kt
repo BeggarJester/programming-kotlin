@@ -1,6 +1,7 @@
 package lab4.model
 
 import lab4.model.Cell.*
+import lab4.model.Direction.*
 import java.io.File
 
 // enum class for cell information storage
@@ -12,6 +13,17 @@ enum class Cell(private val textValue: String) {
 
     override fun toString(): String = textValue
 }
+
+enum class Direction(private val textValue: String) {
+    RIGHT("d"),
+    DOWN("s"),
+    LEFT("a"),
+    UP("w"),
+    ENDGAME("exit");
+
+    override fun toString(): String = textValue
+}
+
 
 // maze solving state
 enum class State(val textValue: String) {
@@ -26,8 +38,8 @@ interface ModelChangeListener {
 // maze model class
 class Model {
     private var player = Pair(0, 0)
-    var boardRow = 0
-    var boardColumn = 0
+    private var boardRow = 0
+    private var boardColumn = 0
     val board: MutableList<MutableList<Cell>> = initStartBoard()
 
     var state: State = State.MOVE
@@ -48,9 +60,9 @@ class Model {
     }
 
     // moving in maze by WASD
-    fun doMove(direction: String) {
+    fun doMove(direction: Direction) {
         when (direction) {
-            "w" -> {
+            UP -> {
                 if (player.first > 0) {
                     when (board[player.first - 1][player.second]) {
                         FREE_WAY -> {
@@ -67,7 +79,7 @@ class Model {
                     }
                 }
             }
-            "s" -> {
+            DOWN -> {
                 if (player.first < boardRow - 1) {
                     when (board[player.first + 1][player.second]) {
                         FREE_WAY -> {
@@ -84,7 +96,7 @@ class Model {
                     }
                 }
             }
-            "d" -> {
+            RIGHT -> {
                 if (player.second < boardColumn - 1) {
                     when (board[player.first][player.second + 1]) {
                         FREE_WAY -> {
@@ -101,7 +113,7 @@ class Model {
                     }
                 }
             }
-            "a" -> {
+            LEFT -> {
                 if (player.second > 0) {
                     when (board[player.first][player.second - 1]) {
                         FREE_WAY -> {
@@ -118,9 +130,17 @@ class Model {
                     }
                 }
             }
-            "exit" -> state = State.FINISH
+            ENDGAME -> state = State.FINISH
         }
         notifyListeners()
+    }
+
+    fun getBoardRow(): Int {
+        return boardRow
+    }
+
+    fun getBoardColumn(): Int {
+        return boardColumn
     }
 
     // read maze map from file
