@@ -1,8 +1,8 @@
 package lab6
 
+import lab2.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.io.File
 import kotlin.test.assertFailsWith
 
 internal class SerializerTest {
@@ -13,9 +13,10 @@ internal class SerializerTest {
         val colour2 = Color(1, 1, 1, 0)
         val shape1 = Square(colour2, colour1, 5.0)
         val shape2 = Circle(colour1, colour1, 1.0)
-        val mySerializer = Serializer()
+        val file = FileManager("src/test/kotlin/lab6/test.txt")
+        val mySerializer = SerializerManager()
         val list = mutableListOf(shape1, shape2)
-        mySerializer.serialization(list, "output")
+        file.write(mySerializer.serialization(list))
         assertEquals(
             "[\n" +
                     "    {\n" +
@@ -51,7 +52,7 @@ internal class SerializerTest {
                     "        \"radius\": 1.0\n" +
                     "    }\n" +
                     "]",
-            File("src/main/kotlin/lab6/output.txt").readText()
+            file.read()
         )
     }
 
@@ -61,18 +62,19 @@ internal class SerializerTest {
         val colour2 = Color(1, 1, 1, 0)
         val shape1 = Square(colour2, colour1, 5.0)
         val shape2 = Circle(colour1, colour1, 1.0)
-        val mySerializer = Serializer()
-        mySerializer.serialization(mutableListOf(shape1, shape2), "output")
-        assertEquals(mutableListOf(shape1, shape2), mySerializer.deserialization("output"))
+        val file = FileManager("src/test/kotlin/lab6/test.txt")
+        val mySerializer = SerializerManager()
+        file.write(mySerializer.serialization(mutableListOf(shape1, shape2)))
+        assertEquals(mutableListOf(shape1, shape2), mySerializer.deserialization(file.read()).toMutableList())
     }
 
     @Test
     fun `test read from non-existing file`() {
-        val mySerializer = Serializer()
+        val file = FileManager("src/test/kotlin/lab6/testExist.txt")
+        val mySerializer = SerializerManager()
         val exception = assertFailsWith<IllegalArgumentException>(
-            block = { mySerializer.deserialization("nameFile") }
+            block = { mySerializer.deserialization(file.read()) }
         )
         assertEquals(exception.message, "File doesn't exist")
-
     }
 }
