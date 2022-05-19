@@ -1,9 +1,6 @@
 package lab4.viewer
 
-import lab4.model.Cell
-import lab4.model.Model
-import lab4.model.ModelChangeListener
-import lab4.model.State
+import lab4.model.*
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Component
@@ -11,6 +8,7 @@ import java.awt.GridLayout
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import javax.swing.*
+import lab4.model.Direction.*
 
 class MazeUi : JFrame("Maze"), ModelChangeListener {
 
@@ -65,21 +63,19 @@ class MazeUi : JFrame("Maze"), ModelChangeListener {
     }
 
     private fun createBoardPanel(): Component {
-        val gamePanel = JPanel(GridLayout(gameModel.boardRow, gameModel.boardColumn))
-
-        for (i in 0 until gameModel.boardRow) {
+        val gamePanel = JPanel(GridLayout(gameModel.getBoardRow(), gameModel.getBoardColumn()))
+        for (i in 0 until gameModel.getBoardRow()) {
             val buttonsRow = mutableListOf<JButton>()
-            for (j in 0 until gameModel.boardColumn) {
+            for (j in 0 until gameModel.getBoardColumn()) {
                 val cellButton = JButton("")
                 // get typed key information
                 cellButton.addKeyListener(object : KeyAdapter() {
                     override fun keyTyped(e: KeyEvent) {
                         when (e.keyChar.toString().lowercase()) {
-                            "ц" -> gameModel.doMove("w")
-                            "ф" -> gameModel.doMove("a")
-                            "ы" -> gameModel.doMove("s")
-                            "в" -> gameModel.doMove("d")
-                            else -> gameModel.doMove(e.keyChar.toString().lowercase())
+                            UP.toString() -> gameModel.doMove(UP)
+                            DOWN.toString() -> gameModel.doMove(DOWN)
+                            LEFT.toString() -> gameModel.doMove(LEFT)
+                            RIGHT.toString() -> gameModel.doMove(RIGHT)
                         }
                     }
                 })
@@ -112,6 +108,7 @@ class MazeUi : JFrame("Maze"), ModelChangeListener {
                 when (cell) {
                     Cell.PLAYER -> button.text = cell.toString()
                     Cell.EXIT -> button.text = cell.toString()
+                    Cell.WALL -> button.text = cell.toString()
                     else -> button.text = ""
                 }
 
