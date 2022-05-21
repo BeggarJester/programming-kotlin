@@ -1,42 +1,42 @@
 [
     {
-        "first": "a",
+        "first": "Vadim",
+        "second": 118
+    },
+    {
+        "first": "Bob",
         "second": 70
     },
     {
-        "first": "fff",
+        "first": "Kate",
         "second": 67
     },
     {
-        "first": "h",
+        "first": "Alice",
         "second": 62
     },
     {
-        "first": "hhh",
+        "first": "Robin",
         "second": 62
     },
     {
-        "first": "2",
+        "first": "Kotlin",
         "second": 36
     },
     {
-        "first": "Vadim",
-        "second": 11
-    },
-    {
-        "first": "ggg",
+        "first": "Orange",
         "second": 10
     },
     {
-        "first": "uuu",
+        "first": "Raccoon",
         "second": 6
     },
     {
-        "first": "win",
+        "first": "Winner",
         "second": 3
     },
     {
-        "first": "yyy",
+        "first": "Owl",
         "second": 3
     }
 ]

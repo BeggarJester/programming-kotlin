@@ -1,4 +1,4 @@
-package coursework.View
+package coursework.view
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

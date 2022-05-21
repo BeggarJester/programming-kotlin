@@ -1,5 +1,6 @@
-package coursework
+package coursework.model
 
+import coursework.view.ModelChangeListener
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.Image
