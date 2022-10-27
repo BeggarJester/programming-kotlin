@@ -2,11 +2,42 @@ package lab2
 
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import org.w3c.dom.Document
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileReader
+import javax.xml.parsers.DocumentBuilderFactory
 
 // class for read, parse and processing XML & CSV files
 class FileReader {
+
+    // read XML file and compute statistics about it and its processing
+    fun readXML(filePath: String) {
+        val startTime = System.currentTimeMillis()
+        val hashMap: HashMap<Address, Int> = HashMap()
+        val citiesNamesList = mutableListOf<String>()
+
+        val factory = DocumentBuilderFactory.newInstance()
+        val builder = factory.newDocumentBuilder()
+        val document: Document = builder.parse(File(filePath))
+        val addressElements = document.documentElement.getElementsByTagName("item")
+        for (indexAddress in 0 until addressElements.length) {
+            val address = addressElements.item(indexAddress)
+            val attributes = address.attributes
+            val newAddress = Address(
+                attributes.getNamedItem("city").nodeValue,
+                attributes.getNamedItem("street").nodeValue,
+                attributes.getNamedItem("house").nodeValue.toInt(),
+                attributes.getNamedItem("floor").nodeValue.toInt()
+            )
+            fillHashMapAndList(citiesNamesList, newAddress, hashMap)
+        }
+
+        citiesNamesList.sort()
+        printStatistics(hashMap, citiesNamesList)
+        val runTime = System.currentTimeMillis() - startTime
+        println("\nRuntime is $runTime milliseconds\n")
+    }
 
     // read CSV file and compute statistics about it and its processing
     fun readCSV(filePath: String) {
